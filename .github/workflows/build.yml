@@ -29,9 +29,8 @@ jobs:
           latexmk_use_xelatex: true  # To support CJK characters
           extra_system_packages: "fontconfig font-noto-cjk font-noto-cjk-extra"
 
-      - name: Fix PDF filenames
+      - name: Move PDFs to public directory
         run: |
-          mkdir -p public
           mv *.pdf public/
 
       - name: Upload artifact
