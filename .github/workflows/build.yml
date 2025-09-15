@@ -1,0 +1,51 @@
+name: Compile
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  make-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile LaTeX (XeLaTeX)
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: |
+            main.tex
+          texlive_version: 2025
+
+      - name: Fix PDF filenames
+        run: |
+          mkdir -p public
+          mv main.pdf public/index.pdf
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    if: github.ref == 'refs/heads/main'
+    needs: make-pdf
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
