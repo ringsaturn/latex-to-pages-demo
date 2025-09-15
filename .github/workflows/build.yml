@@ -22,7 +22,7 @@ jobs:
         with:
           root_file: |
             main-en.tex
-            main-hans.tex
+            main-zh.tex
             main-ja.tex
 
           texlive_version: 2025
