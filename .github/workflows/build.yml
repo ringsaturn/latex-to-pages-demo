@@ -21,13 +21,17 @@ jobs:
         uses: xu-cheng/latex-action@v4
         with:
           root_file: |
-            main.tex
+            main-en.tex
+            main-hans.tex
+            main-ja.tex
+
           texlive_version: 2025
+          latexmk_use_xelatex: true  # To support CJK characters
 
       - name: Fix PDF filenames
         run: |
           mkdir -p public
-          mv main.pdf public/index.pdf
+          mv *.pdf public/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
