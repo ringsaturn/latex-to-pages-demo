@@ -27,6 +27,7 @@ jobs:
 
           texlive_version: 2025
           latexmk_use_xelatex: true  # To support CJK characters
+          extra_system_packages: "fontconfig font-noto-cjk font-noto-cjk-extra"
 
       - name: Fix PDF filenames
         run: |
